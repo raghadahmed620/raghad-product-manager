@@ -1,4 +1,4 @@
-عهimport { initializeApp } from "https://www.gstatic.com/firebasejs/12.16.0/firebase-app.js";
+import { initializeApp } from "https://www.gstatic.com/firebasejs/12.16.0/firebase-app.js";
 import { getAuth } from "https://www.gstatic.com/firebasejs/12.16.0/firebase-auth.js";
 import { getFirestore } from "https://www.gstatic.com/firebasejs/12.16.0/firebase-firestore.js";
 
@@ -195,12 +195,13 @@ if (editIndex !== null && !file) {
 
     editIndex = null;
     saveBtn.textContent = "Save Product";
-    showMessage("✏️ Product Updated Successfully", "success");
+  
         
 
     saveProducts();
-    displayProducts();
-        resetForm();
+displayProducts();
+resetForm();
+showMessage("✏️ Product Updated Successfully", "success");
 
     return;
 }
@@ -329,5 +330,8 @@ signupBtn.addEventListener("click", function () {
     alert("Account Created Successfully");
 
     loginPage.style.display = "none";
-    app.style.display = "block";
+    appPage.style.display = "block";
 });
+
+window.editProduct = editProduct;
+window.deleteProduct = deleteProduct;
