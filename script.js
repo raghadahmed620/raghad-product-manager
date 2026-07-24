@@ -1,4 +1,4 @@
-import { initializeApp } from "https://www.gstatic.com/firebasejs/12.16.0/firebase-app.js";
+عهimport { initializeApp } from "https://www.gstatic.com/firebasejs/12.16.0/firebase-app.js";
 import { getAuth } from "https://www.gstatic.com/firebasejs/12.16.0/firebase-auth.js";
 import { getFirestore } from "https://www.gstatic.com/firebasejs/12.16.0/firebase-firestore.js";
 
@@ -300,7 +300,7 @@ resetBtn.addEventListener("click", resetForm);
 clearBtn.addEventListener("click", clearAllProducts);
 
 let loginPage = document.getElementById("loginPage");
-let app = document.querySelector(".app");
+let appPage = document.querySelector(".app");
 
 let email = document.getElementById("email");
 let password = document.getElementById("password");
@@ -316,7 +316,7 @@ loginBtn.addEventListener("click", function () {
     }
 
     loginPage.style.display = "none";
-    app.style.display = "block";
+    appPage.style.display = "block";
 });
 
 signupBtn.addEventListener("click", function () {
