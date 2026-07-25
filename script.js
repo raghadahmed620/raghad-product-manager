@@ -56,7 +56,7 @@ function resetForm() {
     editIndex = null;
     saveBtn.textContent = "Save Product";
 
-   // message.textContent = "";
+    message.textContent = "";
 }
 
 
