@@ -64,7 +64,6 @@ function showMessage(text, type) {
 
     message.style.display = "block";
     message.textContent = text;
-  alert(text);
 
     if (type === "success") {
     message.style.background = "#E8F5E9";
