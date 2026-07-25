@@ -61,6 +61,9 @@ function resetForm() {
 
 
 function showMessage(text, type) {
+  
+  console.log("Message:", text);
+console.log(message);
 
     message.style.display = "block";
     message.textContent = text;
