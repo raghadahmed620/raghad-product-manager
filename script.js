@@ -56,7 +56,7 @@ function resetForm() {
     editIndex = null;
     saveBtn.textContent = "Save Product";
 
-    message.textContent = "";
+   // message.textContent = "";
 }
 
 
@@ -238,6 +238,7 @@ reader.onload = function () {
     displayProducts();
     resetForm();
 };
+
 
 reader.readAsDataURL(file);
 
