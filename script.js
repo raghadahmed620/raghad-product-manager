@@ -61,12 +61,10 @@ function resetForm() {
 
 
 function showMessage(text, type) {
-  
-  console.log("Message:", text);
-console.log(message);
 
     message.style.display = "block";
     message.textContent = text;
+  alert(text);
 
     if (type === "success") {
     message.style.background = "#E8F5E9";
