@@ -18,6 +18,7 @@ const firebaseConfig = {
 const app = initializeApp(firebaseConfig);
 const auth = getAuth(app);
 const db = getFirestore(app);
+const productsCollection = collection(db, "products");
 
 let productName = document.getElementById("productName");
 let productPrice = document.getElementById("productPrice");
@@ -228,10 +229,20 @@ reader.onload = function () {
     };
 
     if (editIndex === null) {
-        products.push(product);
-        showMessage("✅ Product Added Successfully", "success");
-            
-    } else {
+
+    addDoc(productsCollection, product)
+        .then(function () {
+            console.log("Saved to Firestore");
+        })
+        .catch(function (error) {
+            console.log(error);
+        });
+
+    products.push(product);
+    showMessage("✅ Product Added Successfully", "success");
+
+        
+}else {
         products[editIndex] = product;
         editIndex = null;
         saveBtn.textContent = "Save Product";
