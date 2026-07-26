@@ -232,14 +232,12 @@ reader.onload = function () {
 
     addDoc(productsCollection, product)
         .then(function () {
-            console.log("Saved to Firestore");
+            showMessage("✅ Product Added Successfully", "success");
         })
         .catch(function (error) {
-    alert(error.message);
-});
+            alert(error.message);
+        });
 
-    products.push(product);
-    showMessage("✅ Product Added Successfully", "success");
 
         
 }else {
