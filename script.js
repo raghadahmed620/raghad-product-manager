@@ -1,5 +1,5 @@
 import { initializeApp } from "https://www.gstatic.com/firebasejs/12.16.0/firebase-app.js";
-import { getAuth } from "https://www.gstatic.com/firebasejs/12.16.0/firebase-auth.js";
+import { getAuth, createUserWithEmailAndPassword, signInWithEmailAndPassword } from "https://www.gstatic.com/firebasejs/12.16.0/firebase-auth.js";
 import { getFirestore } from "https://www.gstatic.com/firebasejs/12.16.0/firebase-firestore.js";
 
 const firebaseConfig = {
@@ -310,6 +310,7 @@ let password = document.getElementById("password");
 let loginBtn = document.getElementById("loginBtn");
 let signupBtn = document.getElementById("signupBtn");
 
+
 loginBtn.addEventListener("click", function () {
 
     if (email.value === "" || password.value === "") {
@@ -317,10 +318,16 @@ loginBtn.addEventListener("click", function () {
         return;
     }
 
-    loginPage.style.display = "none";
-    appPage.style.display = "block";
-});
+    signInWithEmailAndPassword(auth, email.value, password.value)
+        .then(function () {
+            loginPage.style.display = "none";
+            appPage.style.display = "block";
+        })
+        .catch(function (error) {
+            alert(error.message);
+        });
 
+});
 signupBtn.addEventListener("click", function () {
 
     if (email.value === "" || password.value === "") {
@@ -328,11 +335,18 @@ signupBtn.addEventListener("click", function () {
         return;
     }
 
-    alert("Account Created Successfully");
+    createUserWithEmailAndPassword(auth, email.value, password.value)
+        .then(function () {
+            alert("Account Created Successfully");
+            loginPage.style.display = "none";
+            appPage.style.display = "block";
+        })
+        .catch(function (error) {
+            alert(error.message);
+        });
 
-    loginPage.style.display = "none";
-    appPage.style.display = "block";
 });
+
 
 window.editProduct = editProduct;
 window.deleteProduct = deleteProduct;
