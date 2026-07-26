@@ -235,8 +235,8 @@ reader.onload = function () {
             console.log("Saved to Firestore");
         })
         .catch(function (error) {
-            console.log(error);
-        });
+    alert(error.message);
+});
 
     products.push(product);
     showMessage("✅ Product Added Successfully", "success");
