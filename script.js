@@ -4,7 +4,9 @@ import {
     getFirestore,
     collection,
     addDoc,
-    getDocs
+    getDocs,
+    deleteDoc,
+    doc
 } from "https://www.gstatic.com/firebasejs/12.16.0/firebase-firestore.js";
 
 const firebaseConfig = {
@@ -284,16 +286,24 @@ function editProduct(index){
         saveBtn.textContent = "Update Product";
 }
 
-function deleteProduct(index) {
+async function deleteProduct(index) {
 
     if (confirm("Are you sure you want to delete this product?")) {
 
-        products.splice(index, 1);
+        try {
 
-        saveProducts();
-        displayProducts();
+            await deleteDoc(doc(db, "products", products[index].id));
 
-        showMessage("🗑️ Product Deleted Successfully", "success");
+            loadProducts();
+
+            showMessage("🗑️ Product Deleted Successfully", "success");
+
+        } catch (error) {
+
+            alert(error.message);
+
+        }
+
     }
 
 }
