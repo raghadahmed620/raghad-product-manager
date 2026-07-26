@@ -254,7 +254,7 @@ reader.onload = function () {
 
             showMessage("✅ Product Added Successfully", "success");
 
-            displayProducts();
+            loadProducts();
             resetForm();
 
         })
@@ -324,7 +324,7 @@ function clearAllProducts() {
     }
 }
 
-displayProducts();
+loadProducts();
 searchInput.addEventListener("input", function () {
     displayProducts();
 });
