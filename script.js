@@ -58,16 +58,8 @@ let totalValue = document.getElementById("totalValue");
 let products = [];
 let editIndex= null;
 
-let savedProducts = localStorage.getItem("products");
-
-
-
-if(savedProducts !==null){
-        products = JSON.parse(savedProducts);
-    }
-
-function saveProducts(){
-  localStorage.setItem("products",JSON.stringify(products));      
+function saveProducts() {
+    // Firestore is now used instead of localStorage
 }
 
 function resetForm() {
