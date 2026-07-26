@@ -3,7 +3,8 @@ import { getAuth, createUserWithEmailAndPassword, signInWithEmailAndPassword } f
 import {
     getFirestore,
     collection,
-    addDoc
+    addDoc,
+    getDocs
 } from "https://www.gstatic.com/firebasejs/12.16.0/firebase-firestore.js";
 
 const firebaseConfig = {
@@ -19,6 +20,24 @@ const app = initializeApp(firebaseConfig);
 const auth = getAuth(app);
 const db = getFirestore(app);
 const productsCollection = collection(db, "products");
+async function loadProducts() {
+
+    products = [];
+
+    const snapshot = await getDocs(productsCollection);
+
+    snapshot.forEach(function (doc) {
+
+        products.push({
+            id: doc.id,
+            ...doc.data()
+        });
+
+    });
+
+    displayProducts();
+
+}
 
 let productName = document.getElementById("productName");
 let productPrice = document.getElementById("productPrice");
@@ -232,27 +251,31 @@ reader.onload = function () {
 
     addDoc(productsCollection, product)
         .then(function () {
+
             showMessage("✅ Product Added Successfully", "success");
+
+            displayProducts();
+            resetForm();
+
         })
         .catch(function (error) {
             alert(error.message);
         });
 
+    return;
 
-        
-}else {
-        products[editIndex] = product;
-        editIndex = null;
-        saveBtn.textContent = "Save Product";
+} else {
+
+    products[editIndex] = product;
+    editIndex = null;
+    saveBtn.textContent = "Save Product";
     showMessage("✏️ Product Updated Successfully", "success");
-    }
+}
 
-    saveProducts();
-    displayProducts();
-    resetForm();
-};
-
-
+saveProducts();
+displayProducts();
+resetForm();
+};    
 reader.readAsDataURL(file);
 
 return;
