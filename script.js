@@ -1,12 +1,15 @@
 import { initializeApp } from "https://www.gstatic.com/firebasejs/12.16.0/firebase-app.js";
 import { getAuth, createUserWithEmailAndPassword, signInWithEmailAndPassword } from "https://www.gstatic.com/firebasejs/12.16.0/firebase-auth.js";
 import {
-    getFirestore,
-    collection,
-    addDoc,
-    getDocs,
-    deleteDoc,
-    doc
+  getFirestore,
+  collection,
+  addDoc,
+  getDocs,
+  deleteDoc,
+  doc,
+  updateDoc,
+  query,
+  where
 } from "https://www.gstatic.com/firebasejs/12.16.0/firebase-firestore.js";
 
 const firebaseConfig = {
@@ -22,24 +25,6 @@ const app = initializeApp(firebaseConfig);
 const auth = getAuth(app);
 const db = getFirestore(app);
 const productsCollection = collection(db, "products");
-async function loadProducts() {
-
-    products = [];
-
-    const snapshot = await getDocs(productsCollection);
-
-    snapshot.forEach(function (doc) {
-
-        products.push({
-            id: doc.id,
-            ...doc.data()
-        });
-
-    });
-
-    displayProducts();
-
-}
 
 let productName = document.getElementById("productName");
 let productPrice = document.getElementById("productPrice");
@@ -60,9 +45,9 @@ let totalValue = document.getElementById("totalValue");
 let products = [];
 let editIndex= null;
 
-function saveProducts() {
-    // Firestore is now used instead of localStorage
-}
+
+
+
 
 function resetForm() {
     productName.value = "";
@@ -242,34 +227,22 @@ reader.onload = function () {
     };
 
     if (editIndex === null) {
-
-    addDoc(productsCollection, product)
-        .then(function () {
-
-            showMessage("✅ Product Added Successfully", "success");
-
-            loadProducts();
-            resetForm();
-
-        })
-        .catch(function (error) {
-            alert(error.message);
-        });
-
-    return;
-
-} else {
-
-    products[editIndex] = product;
-    editIndex = null;
-    saveBtn.textContent = "Save Product";
+        products.push(product);
+        showMessage("✅ Product Added Successfully", "success");
+            
+    } else {
+        products[editIndex] = product;
+        editIndex = null;
+        saveBtn.textContent = "Save Product";
     showMessage("✏️ Product Updated Successfully", "success");
-}
+    }
 
-saveProducts();
-displayProducts();
-resetForm();
-};    
+    saveProducts();
+    displayProducts();
+    resetForm();
+};
+
+
 reader.readAsDataURL(file);
 
 return;
@@ -286,24 +259,16 @@ function editProduct(index){
         saveBtn.textContent = "Update Product";
 }
 
-async function deleteProduct(index) {
+function deleteProduct(index) {
 
     if (confirm("Are you sure you want to delete this product?")) {
 
-        try {
+        products.splice(index, 1);
 
-            await deleteDoc(doc(db, "products", products[index].id));
+        saveProducts();
+        displayProducts();
 
-            loadProducts();
-
-            showMessage("🗑️ Product Deleted Successfully", "success");
-
-        } catch (error) {
-
-            alert(error.message);
-
-        }
-
+        showMessage("🗑️ Product Deleted Successfully", "success");
     }
 
 }
@@ -326,7 +291,7 @@ function clearAllProducts() {
     }
 }
 
-loadProducts();
+displayProducts();
 searchInput.addEventListener("input", function () {
     displayProducts();
 });
@@ -360,6 +325,7 @@ loginBtn.addEventListener("click", function () {
         .then(function () {
             loginPage.style.display = "none";
             appPage.style.display = "block";
+          loadProducts();
         })
         .catch(function (error) {
             alert(error.message);
@@ -378,6 +344,7 @@ signupBtn.addEventListener("click", function () {
             alert("Account Created Successfully");
             loginPage.style.display = "none";
             appPage.style.display = "block";
+          loadProducts();
         })
         .catch(function (error) {
             alert(error.message);
@@ -388,3 +355,20 @@ signupBtn.addEventListener("click", function () {
 
 window.editProduct = editProduct;
 window.deleteProduct = deleteProduct;
+
+async function loadProducts() {
+
+    products = [];
+
+    const snapshot = await getDocs(productsCollection);
+
+    snapshot.forEach(function(docSnap) {
+        products.push({
+            id: docSnap.id,
+            ...docSnap.data()
+        });
+
+    });
+
+    displayProducts();
+}
